@@ -1,0 +1,29 @@
+rules:
+  - id: iot-python-command-injection
+    languages:
+      - python
+    severity: ERROR
+    message: "Potential command injection: os.system() is called with a dynamically constructed command. Prefer subprocess with an argument list and shell=False."
+    pattern: os.system(...)
+
+  - id: iot-python-path-traversal
+    languages:
+      - python
+    severity: ERROR
+    message: "Potential path traversal: a user-controlled filename is combined with a filesystem directory without an obvious containment check."
+    patterns:
+      - pattern: os.path.join($BASE, $NAME)
+      - pattern-inside: |
+          def $FUNC(...):
+              ...
+              $NAME = input(...)
+              ...
+              $DEST = os.path.join($BASE, $NAME)
+              ...
+
+  - id: iot-python-insecure-file-upload
+    languages:
+      - python
+    severity: WARNING
+    message: "Potential insecure file upload: shutil.copyfile is used on user-controlled paths without an obvious extension, size, and destination validation boundary."
+    pattern: shutil.copyfile($SOURCE, $DEST)
