@@ -1,5 +1,7 @@
 # main.py
 
+import os
+
 from shift_cipher import encrypt
 from brute_force_dictionary import load_dictionary
 from brute_force_dictionary import dictionary_attack
@@ -22,10 +24,16 @@ def main():
     print("Actual Key         :", key)
     print("Ciphertext         :", ciphertext)
 
-    # Load dictionary
-    dictionary = load_dictionary(
-        "../dictionary/english_words.txt"
+    # Find dictionary file
+    dictionary_path = os.path.join(
+        os.path.dirname(__file__),
+        "..",
+        "dictionary",
+        "english_words.txt"
     )
+
+    # Load dictionary
+    dictionary = load_dictionary(dictionary_path)
 
     # Dictionary attack
     dictionary_key, dictionary_text, dictionary_score_value = \
