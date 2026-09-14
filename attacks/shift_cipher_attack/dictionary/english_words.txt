@@ -40,3 +40,4 @@ message
 secret
 text
 english
+simple
